@@ -28,7 +28,7 @@ dependencies:
 #  Network calls
   http: ^0.13.3
 
-#  Models
+#  Model generator
   json_annotation: ^4.0.1
 
 #  UI

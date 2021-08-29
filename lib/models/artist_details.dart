@@ -1,3 +1,4 @@
+import 'package:adroit/models/artist_image.dart';
 import 'package:adroit/models/artist_socials.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,6 +8,9 @@ part 'artist_details.g.dart';
 class ArtistDetails {
   @JsonKey(name: "social")
   ArtistSocials socials;
+
+  @JsonKey(name: "profile_image")
+  ArtistImage artistImage;
 
   String id;
 
@@ -22,6 +26,7 @@ class ArtistDetails {
 
   ArtistDetails({
     required this.socials,
+    required this.artistImage,
     required this.id,
     required this.name,
     required this.location,

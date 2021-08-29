@@ -9,6 +9,8 @@ part of 'artist_details.dart';
 ArtistDetails _$ArtistDetailsFromJson(Map<String, dynamic> json) {
   return ArtistDetails(
     socials: ArtistSocials.fromJson(json['social'] as Map<String, dynamic>),
+    artistImage:
+        ArtistImage.fromJson(json['profile_image'] as Map<String, dynamic>),
     id: json['id'] as String,
     name: json['name'] as String,
     location: json['location'] as String,
@@ -20,6 +22,7 @@ ArtistDetails _$ArtistDetailsFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$ArtistDetailsToJson(ArtistDetails instance) =>
     <String, dynamic>{
       'social': instance.socials.toJson(),
+      'profile_image': instance.artistImage.toJson(),
       'id': instance.id,
       'name': instance.name,
       'location': instance.location,
