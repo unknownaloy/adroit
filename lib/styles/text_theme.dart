@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 
 final TextTheme kLightTextTheme = TextTheme(
   headline2: kHeadLine2TextStyle.copyWith(
-    color: kLightThemeTextColor,
+    color: kPrimaryTextColor,
   ), // For the splash screen logo text
   bodyText1: kBody1TextStyle.copyWith(
-    color: kLightThemeTextColor,
+    color: kPrimaryTextColor,
   ),
 );
 
