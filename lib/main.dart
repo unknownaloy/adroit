@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: [
         AppLocalizations.delegate, // Add this line
         GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
       ],
       title: 'Adroit',
       theme: lightTheme(),

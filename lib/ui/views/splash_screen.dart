@@ -16,7 +16,7 @@ class SplashScreen extends StatelessWidget {
       );
     });
     return Container(
-      color: kPrimaryColorLight,
+      color: kPrimaryColor,
       child: Center(
         child: Shimmer.fromColors(
           baseColor: Colors.white,

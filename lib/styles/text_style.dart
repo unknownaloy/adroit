@@ -5,7 +5,12 @@ final kHeadLine2TextStyle = GoogleFonts.satisfy(
   fontSize: 64.0,
 );
 
-final kBody1TextStyle = GoogleFonts.montserrat(
+final kHeadLine6TextStyle = GoogleFonts.openSans(
+  fontSize: 16.0,
+  fontWeight: FontWeight.w600,
+);
+
+final kBody1TextStyle = GoogleFonts.openSans(
   fontSize: 15.0,
   fontWeight: FontWeight.w500,
 );

@@ -7,8 +7,12 @@ ThemeData lightTheme() {
 
   return baseTheme.copyWith(
     scaffoldBackgroundColor: kScaffoldColor,
-    primaryColor: kPrimaryColorLight,
-    accentColor: kSecondaryColorLight,
+    primaryColor: kPrimaryColor,
+    primaryColorLight: kPrimaryColorLight,
+    accentColor: kSecondaryColor,
     textTheme: kLightTextTheme,
+    tabBarTheme: TabBarTheme(
+      indicatorSize: TabBarIndicatorSize.label,
+    ),
   );
 }

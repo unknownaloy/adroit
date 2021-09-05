@@ -1,3 +1,4 @@
+import 'package:adroit/ui/views/home_photos.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:adroit/ui/components/custom_persistent_header.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen>
                 delegate: CustomPersistentHeader(
                   child: TabBar(
                     controller: _tabController,
+                    indicatorColor: Theme.of(context).accentColor,
+                    labelStyle: Theme.of(context).textTheme.headline6,
                     tabs: [
                       Text(AppLocalizations.of(context)!.home),
                       Text(AppLocalizations.of(context)!.recommendations),
@@ -44,10 +47,7 @@ class _HomeScreenState extends State<HomeScreen>
             child: TabBarView(
               controller: _tabController,
               children: [
-                Text(
-                  "Something just like this",
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
+                HomePhotos(),
                 Text(
                   "the other side",
                   style: Theme.of(context).textTheme.bodyText1,

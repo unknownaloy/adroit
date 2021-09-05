@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:adroit/styles/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomPersistentHeader extends SliverPersistentHeaderDelegate {
@@ -50,7 +51,7 @@ class CustomPersistentHeader extends SliverPersistentHeaderDelegate {
       return SizedBox.expand(
         child: Container(
           decoration: BoxDecoration(
-            color: containerColor ?? Color(0xff79789b),
+            color: containerColor ?? kPrimaryColorLight,
           ),
           child: child,
         ),

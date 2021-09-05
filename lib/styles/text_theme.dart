@@ -6,6 +6,7 @@ final TextTheme kLightTextTheme = TextTheme(
   headline2: kHeadLine2TextStyle.copyWith(
     color: kPrimaryTextColor,
   ), // For the splash screen logo text
+  headline6: kHeadLine6TextStyle.copyWith(),
   bodyText1: kBody1TextStyle.copyWith(
     color: kPrimaryTextColor,
   ),
