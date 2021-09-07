@@ -3,7 +3,10 @@ import 'package:adroit/bloc/home/home_states.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 class HomeBloc extends HydratedBloc<HomeEvents, HomeStates> {
-  HomeBloc(HomeStates state) : super(state);
+
+  HomeBloc(HomeStates state) : super(state); // HomeInitialState()
+
+
 
   // HomeBloc(HomeStates initialState) : super(initialState);
 
