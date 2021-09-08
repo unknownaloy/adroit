@@ -1,14 +1,15 @@
 import 'package:adroit/bloc/home/home_events.dart';
 import 'package:adroit/bloc/home/home_states.dart';
+import 'package:adroit/services/wallpaper_service.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 class HomeBloc extends HydratedBloc<HomeEvents, HomeStates> {
 
   HomeBloc(HomeStates state) : super(state); // HomeInitialState()
 
-
-
   // HomeBloc(HomeStates initialState) : super(initialState);
+
+  final WallpaperService _wallpaperService = WallpaperService();
 
   @override
   HomeStates? fromJson(Map<String, dynamic> json) {
@@ -36,5 +37,11 @@ class HomeBloc extends HydratedBloc<HomeEvents, HomeStates> {
   Stream<HomeStates> _mapFetchWallpaperEventToState(
       HomeFetchEvent event) async* {
     yield HomeLoadingState();
+
+    _wallpaperService.getListOfPhotos().then((wallpapers) {
+      // Do something with the result
+    }).catchError((onError) {
+      // Do something with error
+    });
   }
 }
