@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class AvatarName extends StatelessWidget {
-  final String name;
-  const AvatarName({Key? key, required this.name}) : super(key: key);
+  final String artistImage;
+  final String artistName;
+  const AvatarName({Key? key, required this.artistImage, required this.artistName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,14 +12,15 @@ class AvatarName extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         CircleAvatar(
-          backgroundColor: Colors.orange,
           radius: 24.0,
+          backgroundColor: Colors.orange,
+          backgroundImage: CachedNetworkImageProvider(artistImage),
         ),
         SizedBox(
           width: 8.0,
         ),
         Text(
-          name,
+          artistName,
           style: TextStyle(color: Colors.black),
         ),
       ],
