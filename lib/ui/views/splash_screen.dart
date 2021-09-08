@@ -23,6 +23,7 @@ class SplashScreen extends StatelessWidget {
           highlightColor: Color(0xffcaaf65),
           child: Text(
             "Adroit",
+            /// TODO: Remove the use of the text theme
             style: Theme.of(context).textTheme.headline2,
           ),
         ),

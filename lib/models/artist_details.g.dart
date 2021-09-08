@@ -13,7 +13,7 @@ ArtistDetails _$ArtistDetailsFromJson(Map<String, dynamic> json) {
         ArtistImage.fromJson(json['profile_image'] as Map<String, dynamic>),
     id: json['id'] as String,
     name: json['name'] as String,
-    location: json['location'] as String,
+    location: json['location'] as String?,
     totalLikes: json['total_likes'] as int,
     totalPhotos: json['total_photos'] as int,
   );

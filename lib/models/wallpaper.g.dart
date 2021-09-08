@@ -10,7 +10,7 @@ Wallpaper _$WallpaperFromJson(Map<String, dynamic> json) {
   return Wallpaper(
     artistDetails: ArtistDetails.fromJson(json['user'] as Map<String, dynamic>),
     id: json['id'] as String,
-    description: json['description'] as String,
+    description: json['description'] as String?,
     likes: json['likes'] as int,
     width: json['width'] as int,
     height: json['height'] as int,

@@ -1,38 +1,42 @@
 import 'package:adroit/models/artist_details.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'wallpaper.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Wallpaper {
+class Wallpaper extends Equatable {
   @JsonKey(name: "user")
-  ArtistDetails artistDetails;
+  final ArtistDetails artistDetails;
 
-  String id;
+  final String id;
 
-  String description;
+  final String? description;
 
-  int likes;
+  final int likes;
 
-  int width;
+  final int width;
 
-  int height;
+  final int height;
 
-  String color;
+  final String color;
 
   @JsonKey(name: "blur_hash")
-  String blurHash;
+  final String blurHash;
 
-  Wallpaper({
+  const Wallpaper({
     required this.artistDetails,
     required this.id,
-    required this.description,
+    this.description,
     required this.likes,
     required this.width,
     required this.height,
     required this.color,
     required this.blurHash,
   });
+
+  @override
+  List<Object?> get props => [id];
 
   factory Wallpaper.fromJson(Map<String, dynamic> json) =>
       _$WallpaperFromJson(json);

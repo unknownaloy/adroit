@@ -11,8 +11,8 @@ class WallpaperService {
   Future<List<Wallpaper>> getListOfPhotos([int page = 1]) async {
     try {
       Map<String, String> queryParams = {
-        "client_id": clientId,
         "page": page.toString(),
+        "client_id": clientId,
       };
 
       // https://api.unsplash.com/photos?c0xpjvzVqQEheF1khDTAmJKLHP544oJ_0CYjEAZGSa0
@@ -22,12 +22,13 @@ class WallpaperService {
       http.Response response = await http.get(uri);
 
       if (response.statusCode == 200) {
+        print("getListOfPhotos => Status code 200");
         List<Wallpaper> result = [];
         final data = response.body;
 
-        final decodedData = jsonDecode(data);
+        final decodedData = jsonDecode(data) as List;
 
-        for (var singleData in decodedData) {
+        for (Map<String, dynamic> singleData in decodedData) {
           Wallpaper wallpaper = Wallpaper.fromJson(singleData);
           result.add(wallpaper);
         }
@@ -36,9 +37,11 @@ class WallpaperService {
       } else {
         throw Exception("An error occurred while fetching data");
       }
-    } on SocketException {
+    } on SocketException catch (e) {
+      print("SocketException => $e");
       throw Exception("No internet connection");
     } catch (e) {
+      print(e);
       throw Exception("Something went wrong please try again");
     }
   }

@@ -7,29 +7,29 @@ part 'artist_details.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ArtistDetails {
   @JsonKey(name: "social")
-  ArtistSocials socials;
+  final ArtistSocials socials;
 
   @JsonKey(name: "profile_image")
-  ArtistImage artistImage;
+  final ArtistImage artistImage;
 
-  String id;
+  final String id;
 
-  String name;
+  final String name;
 
-  String location;
+  final String? location;
 
   @JsonKey(name: "total_likes")
-  int totalLikes;
+  final int totalLikes;
 
   @JsonKey(name: "total_photos")
-  int totalPhotos;
+  final int totalPhotos;
 
-  ArtistDetails({
+  const ArtistDetails({
     required this.socials,
     required this.artistImage,
     required this.id,
     required this.name,
-    required this.location,
+    this.location,
     required this.totalLikes,
     required this.totalPhotos,
   });

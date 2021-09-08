@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AvatarName extends StatelessWidget {
-  const AvatarName({Key? key}) : super(key: key);
+  final String name;
+  const AvatarName({Key? key, required this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class AvatarName extends StatelessWidget {
           width: 8.0,
         ),
         Text(
-          "John Doe",
+          name,
           style: TextStyle(color: Colors.black),
         ),
       ],

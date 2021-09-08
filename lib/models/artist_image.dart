@@ -4,11 +4,11 @@ part 'artist_image.g.dart';
 
 @JsonSerializable()
 class ArtistImage {
-  String small;
+  final String small;
 
-  String large;
+  final String large;
 
-  ArtistImage({
+  const ArtistImage({
     required this.small,
     required this.large,
   });

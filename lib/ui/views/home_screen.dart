@@ -1,4 +1,7 @@
+import 'package:adroit/bloc/home/home_bloc.dart';
+import 'package:adroit/bloc/home/home_states.dart';
 import 'package:adroit/ui/views/home_photos.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:adroit/ui/components/custom_persistent_header.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +50,12 @@ class _HomeScreenState extends State<HomeScreen>
             child: TabBarView(
               controller: _tabController,
               children: [
-                HomePhotos(),
+                BlocProvider<HomeBloc>(
+                  create: (context) => HomeBloc(
+                    HomeInitialState(),
+                  ),
+                  child: HomePhotos(),
+                ),
                 Text(
                   "the other side",
                   style: Theme.of(context).textTheme.bodyText1,

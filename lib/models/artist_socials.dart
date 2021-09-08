@@ -5,15 +5,15 @@ part 'artist_socials.g.dart';
 @JsonSerializable()
 class ArtistSocials {
   @JsonKey(name: "twitter_username")
-  String? twitterName;
+  final String? twitterName;
 
   @JsonKey(name: "instagram_username")
-  String? instagramName;
+  final String? instagramName;
 
   @JsonKey(name: "portfolio_url")
-  String? portfolioUrl;
+  final String? portfolioUrl;
 
-  ArtistSocials({
+  const ArtistSocials({
     this.twitterName,
     this.instagramName,
     this.portfolioUrl,

@@ -15,16 +15,16 @@ class HomeLoadingState extends HomeStates {}
 class HomeErrorState extends HomeStates {
   final String errorMessage;
 
-  HomeErrorState({required this.errorMessage});
+  HomeErrorState(this.errorMessage);
 
   @override
   List<Object> get props => [errorMessage];
 }
 
 class HomeLoadedState extends HomeStates {
-  late final List<Wallpaper> wallpapers;
+  final List<Wallpaper> wallpapers;
 
-  HomeLoadedState(wallpaper);
+   HomeLoadedState(this.wallpapers);
 
   @override
   List<Object> get props => [wallpapers];
