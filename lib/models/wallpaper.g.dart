@@ -9,6 +9,7 @@ part of 'wallpaper.dart';
 Wallpaper _$WallpaperFromJson(Map<String, dynamic> json) {
   return Wallpaper(
     artistDetails: ArtistDetails.fromJson(json['user'] as Map<String, dynamic>),
+    imageUrl: ImageUrl.fromJson(json['urls'] as Map<String, dynamic>),
     id: json['id'] as String,
     description: json['description'] as String?,
     likes: json['likes'] as int,
@@ -21,6 +22,7 @@ Wallpaper _$WallpaperFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$WallpaperToJson(Wallpaper instance) => <String, dynamic>{
       'user': instance.artistDetails.toJson(),
+      'urls': instance.imageUrl.toJson(),
       'id': instance.id,
       'description': instance.description,
       'likes': instance.likes,

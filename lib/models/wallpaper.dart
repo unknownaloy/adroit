@@ -1,4 +1,5 @@
 import 'package:adroit/models/artist_details.dart';
+import 'package:adroit/models/image_url.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,6 +9,9 @@ part 'wallpaper.g.dart';
 class Wallpaper extends Equatable {
   @JsonKey(name: "user")
   final ArtistDetails artistDetails;
+
+  @JsonKey(name: "urls")
+  final ImageUrl imageUrl;
 
   final String id;
 
@@ -26,6 +30,7 @@ class Wallpaper extends Equatable {
 
   const Wallpaper({
     required this.artistDetails,
+    required this.imageUrl,
     required this.id,
     this.description,
     required this.likes,
