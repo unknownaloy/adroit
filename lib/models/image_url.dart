@@ -1,14 +1,14 @@
-import 'package:adroit/models/artist_image.dart';
-import 'package:adroit/models/artist_socials.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'image_url.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class ImageUrl {
+  final String small;
   final String regular;
 
   const ImageUrl({
+    required this.small,
     required this.regular,
   });
 

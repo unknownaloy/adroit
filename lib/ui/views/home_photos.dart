@@ -69,7 +69,7 @@ class _HomePhotosState extends State<HomePhotos> {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
                         child: ImageHolder(
-                          imageUrl: wallpaper.imageUrl.regular,
+                          imageUrl: wallpaper.imageUrl.small,
                           blurHash: wallpaper.blurHash,
                         ),
                       ),
