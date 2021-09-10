@@ -17,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final WallpaperService _wallpaperService = WallpaperService();
 
   @override
   void initState() {
