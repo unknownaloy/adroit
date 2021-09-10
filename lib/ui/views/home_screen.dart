@@ -1,5 +1,7 @@
 import 'package:adroit/bloc/home/home_bloc.dart';
+import 'package:adroit/bloc/home/home_events.dart';
 import 'package:adroit/bloc/home/home_states.dart';
+import 'package:adroit/services/wallpaper_service.dart';
 import 'package:adroit/ui/views/home_photos.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final WallpaperService _wallpaperService = WallpaperService();
 
   @override
   void initState() {
@@ -51,9 +54,11 @@ class _HomeScreenState extends State<HomeScreen>
               controller: _tabController,
               children: [
                 BlocProvider<HomeBloc>(
-                  create: (context) => HomeBloc(
-                    HomeInitialState(),
-                  ),
+                  create: (context) =>
+                      HomeBloc(wallpaperService: WallpaperService())
+                        ..add(
+                          HomeFetchEvent(),
+                        ),
                   child: HomePhotos(),
                 ),
                 Text(

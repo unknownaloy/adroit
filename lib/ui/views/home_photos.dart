@@ -7,20 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class HomePhotos extends StatefulWidget {
+class HomePhotos extends StatelessWidget {
   const HomePhotos({Key? key}) : super(key: key);
-
-  @override
-  _HomePhotosState createState() => _HomePhotosState();
-}
-
-class _HomePhotosState extends State<HomePhotos> {
-  @override
-  void initState() {
-    super.initState();
-
-    BlocProvider.of<HomeBloc>(context).add(HomeFetchEvent());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +43,10 @@ class _HomePhotosState extends State<HomePhotos> {
               itemCount: state.wallpapers.length,
               itemBuilder: (BuildContext context, int index) {
                 final wallpaper = state.wallpapers[index];
+                print("COLOR => ${wallpaper.color} $index");
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: index == 0 ? MainAxisAlignment.start : MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AvatarName(
@@ -78,7 +67,7 @@ class _HomePhotosState extends State<HomePhotos> {
                 );
               },
               staggeredTileBuilder: (int index) =>
-                  new StaggeredTile.count(2, index.isEven ? 4 : 3),
+              new StaggeredTile.count(2, index.isEven ? 4 : 3),
               mainAxisSpacing: 4.0,
               crossAxisSpacing: 4.0,
             ),
@@ -95,3 +84,4 @@ class _HomePhotosState extends State<HomePhotos> {
     );
   }
 }
+

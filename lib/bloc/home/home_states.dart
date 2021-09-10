@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 @immutable
 abstract class HomeStates extends Equatable {
+  const HomeStates();
   @override
   List<Object> get props => [];
 }
@@ -15,7 +16,7 @@ class HomeLoadingState extends HomeStates {}
 class HomeErrorState extends HomeStates {
   final String errorMessage;
 
-  HomeErrorState(this.errorMessage);
+  const HomeErrorState(this.errorMessage);
 
   @override
   List<Object> get props => [errorMessage];
@@ -24,7 +25,7 @@ class HomeErrorState extends HomeStates {
 class HomeLoadedState extends HomeStates {
   final List<Wallpaper> wallpapers;
 
-   HomeLoadedState(this.wallpapers);
+   HomeLoadedState([this.wallpapers = const []]);
 
   @override
   List<Object> get props => [wallpapers];

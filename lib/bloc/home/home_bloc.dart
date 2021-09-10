@@ -4,15 +4,14 @@ import 'package:adroit/models/wallpaper.dart';
 import 'package:adroit/services/wallpaper_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeBloc extends Bloc <HomeEvents, HomeStates> {
+class HomeBloc extends Bloc<HomeEvents, HomeStates> {
 
-  @override
-  HomeStates get state => HomeInitialState();
+  final WallpaperService _wallpaperService;
 
-  HomeBloc(HomeStates initialState) : super(initialState);
+  HomeBloc({required WallpaperService wallpaperService})
+      : _wallpaperService = wallpaperService,
+        super(HomeInitialState());
 
-
-  final WallpaperService _wallpaperService = WallpaperService();
 
   // List<Wallpaper> _wallPaperCache = [];
   //
@@ -49,13 +48,13 @@ class HomeBloc extends Bloc <HomeEvents, HomeStates> {
     yield HomeLoadingState();
 
     try {
-      List<Wallpaper> cachedWallPaperData = await _wallpaperService.getListOfPhotos();
+      List<Wallpaper> cachedWallPaperData =
+          await _wallpaperService.getListOfPhotos();
 
       yield HomeLoadedState(cachedWallPaperData);
     } catch (e) {
       // Do something with error
       yield HomeErrorState(e.toString());
     }
-
   }
 }

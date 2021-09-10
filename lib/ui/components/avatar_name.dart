@@ -19,9 +19,11 @@ class AvatarName extends StatelessWidget {
         SizedBox(
           width: 8.0,
         ),
-        Text(
-          artistName,
-          style: TextStyle(color: Colors.black),
+        Flexible(
+          child: Text(
+            artistName,
+            style: TextStyle(color: Colors.black),
+          ),
         ),
       ],
     );
