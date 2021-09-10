@@ -1,5 +1,4 @@
 import 'package:adroit/bloc/home/home_bloc.dart';
-import 'package:adroit/bloc/home/home_events.dart';
 import 'package:adroit/bloc/home/home_states.dart';
 import 'package:adroit/ui/components/avatar_name.dart';
 import 'package:adroit/ui/components/image_holder.dart';
@@ -7,11 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class HomePhotos extends StatelessWidget {
+class HomePhotos extends StatefulWidget {
   const HomePhotos({Key? key}) : super(key: key);
 
   @override
+  _HomePhotosState createState() => _HomePhotosState();
+}
+
+class _HomePhotosState extends State<HomePhotos> with AutomaticKeepAliveClientMixin{
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocBuilder<HomeBloc, HomeStates>(
       builder: (context, state) {
         if (state is HomeInitialState) {
@@ -46,7 +51,7 @@ class HomePhotos extends StatelessWidget {
                 print("COLOR => ${wallpaper.color} $index");
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: index == 0 ? MainAxisAlignment.start : MainAxisAlignment.center,
+                  mainAxisAlignment: index == 1 ? MainAxisAlignment.start : MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AvatarName(
@@ -83,5 +88,8 @@ class HomePhotos extends StatelessWidget {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 

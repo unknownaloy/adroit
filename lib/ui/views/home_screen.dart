@@ -1,6 +1,5 @@
 import 'package:adroit/bloc/home/home_bloc.dart';
 import 'package:adroit/bloc/home/home_events.dart';
-import 'package:adroit/bloc/home/home_states.dart';
 import 'package:adroit/services/wallpaper_service.dart';
 import 'package:adroit/ui/views/home_photos.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
