@@ -1,4 +1,5 @@
 import 'package:adroit/bloc/home/home_bloc.dart';
+import 'package:adroit/bloc/home/home_events.dart';
 import 'package:adroit/bloc/home/home_states.dart';
 import 'package:adroit/ui/components/avatar_name.dart';
 import 'package:adroit/ui/components/image_holder.dart';
@@ -16,6 +17,8 @@ class HomePhotos extends StatefulWidget {
 class _HomePhotosState extends State<HomePhotos>
     with AutomaticKeepAliveClientMixin {
   late final ScrollController _scrollController;
+
+  bool _showBottomLoading = false;
 
   void _scrollListener() {
     final homeBloc = BlocProvider.of<HomeBloc>(context);
@@ -46,6 +49,7 @@ class _HomePhotosState extends State<HomePhotos>
     if (_scrollController.offset >=
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
+      homeBloc.add(HomeNextData());
       print("Gotten to the bottom of the screen");
     }
   }
@@ -62,18 +66,17 @@ class _HomePhotosState extends State<HomePhotos>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocBuilder<HomeBloc, HomeStates>(
+    return BlocConsumer<HomeBloc, HomeStates>(
+      listener: (context, state) {
+        // Do something with bloc state
+        if (state is HomeLoadingState) {
+          setState(() => _showBottomLoading = true);
+        }
+      },
       builder: (context, state) {
         if (state is HomeInitialState) {
           return Text(
-            "Initial state",
-            style: TextStyle(color: Colors.black),
-          );
-        }
-
-        if (state is HomeLoadingState) {
-          return Text(
-            "Loading",
+            "Initial loading...",
             style: TextStyle(color: Colors.black),
           );
         }
@@ -88,44 +91,61 @@ class _HomePhotosState extends State<HomePhotos>
         if (state is HomeLoadedState) {
           return Padding(
             padding: const EdgeInsets.only(top: 12.0),
-            child: StaggeredGridView.countBuilder(
-              controller: _scrollController,
-              crossAxisCount: 4,
-              itemCount: state.wallpapers.length,
-              itemBuilder: (BuildContext context, int index) {
-                final wallpaper = state.wallpapers[index];
-                print("COLOR => ${wallpaper.color} $index");
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: index == 1
-                      ? MainAxisAlignment.start
-                      : MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AvatarName(
-                      artistImage: wallpaper.artistDetails.artistImage.small,
-                      artistName: wallpaper.artistDetails.name,
-                    ),
-                    Flexible(
-                      child: AspectRatio(
-                        aspectRatio: index.isEven ? 9 / 16 : 5 / 4,
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.only(top: 8.0, bottom: 16.0),
-                          child: ImageHolder(
-                            imageUrl: wallpaper.imageUrl.small,
-                            blurHash: wallpaper.blurHash,
+            child: Column(
+              children: [
+                Expanded(
+                  child: StaggeredGridView.countBuilder(
+                    controller: _scrollController,
+                    crossAxisCount: 4,
+                    itemCount: state.wallpapers.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final wallpaper = state.wallpapers[index];
+                      print("COLOR => ${wallpaper.color} $index");
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: index == 1
+                            ? MainAxisAlignment.start
+                            : MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AvatarName(
+                            artistImage: wallpaper.artistDetails.artistImage.small,
+                            artistName: wallpaper.artistDetails.name,
                           ),
-                        ),
-                      ),
+                          Flexible(
+                            child: AspectRatio(
+                              aspectRatio: index.isEven ? 9 / 16 : 5 / 4,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8.0, bottom: 16.0),
+                                child: ImageHolder(
+                                  imageUrl: wallpaper.imageUrl.small,
+                                  blurHash: wallpaper.blurHash,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                    staggeredTileBuilder: (int index) =>
+                        new StaggeredTile.count(2, index.isEven ? 4 : 3),
+                    mainAxisSpacing: 4.0,
+                    crossAxisSpacing: 4.0,
+                  ),
+                ),
+                _showBottomLoading
+                    ? Center(
+                  child: SizedBox(
+                    width: 18.0,
+                    height: 18.0,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.0,
                     ),
-                  ],
-                );
-              },
-              staggeredTileBuilder: (int index) =>
-                  new StaggeredTile.count(2, index.isEven ? 4 : 3),
-              mainAxisSpacing: 4.0,
-              crossAxisSpacing: 4.0,
+                  ),
+                )
+                    : SizedBox.shrink(),
+              ],
             ),
           );
         }

@@ -40,15 +40,16 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
   @override
   Stream<HomeStates> mapEventToState(HomeEvents event) async* {
     if (event is HomeFetchEvent) {
-      yield* _mapFetchWallpaperEventToState(event);
+      yield* _mapHomeFetchEventToState(event);
     } else if (event is HomeNextData) {
       // Handle next data event
+      yield* _mapHomeEventToState(event);
     }
   }
 
-  Stream<HomeStates> _mapFetchWallpaperEventToState(
+  Stream<HomeStates> _mapHomeFetchEventToState(
       HomeFetchEvent event) async* {
-    yield HomeLoadingState();
+    // yield HomeLoadingState();
 
     try {
       List<Wallpaper> cachedWallPaperData =
@@ -59,5 +60,9 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
       // Do something with error
       yield HomeErrorState(e.message);
     }
+  }
+
+  Stream<HomeStates> _mapHomeEventToState(HomeNextData event) async* {
+    // Handle
   }
 }
