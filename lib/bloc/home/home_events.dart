@@ -17,3 +17,5 @@ class HomeLoadedEvent extends HomeEvents {
   @override
   List<Object> get props => [wallpaper];
 }
+
+class HomeNextData extends HomeEvents {}

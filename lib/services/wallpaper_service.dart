@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:adroit/api_keys/api.dart';
 import 'package:adroit/models/wallpaper.dart';
+import 'package:adroit/services/failure.dart';
+import 'package:adroit/utilities/strings.dart';
 import 'package:http/http.dart' as http;
 
 class WallpaperService {
@@ -35,11 +37,14 @@ class WallpaperService {
         throw Exception("An error occurred while fetching data");
       }
     } on SocketException catch (e) {
-      print("SocketException => $e");
-      throw Exception("No internet connection");
+      print("getListOfPhotos => SocketException $e");
+      throw Failure(kSocketException);
+    } on HttpException catch (e) {
+      print("getListOfPhotos => HttpException === $e");
+      throw Failure(kHttpException);
     } catch (e) {
       print(e);
-      throw Exception("Something went wrong please try again");
+      throw Failure(kCatchException);
     }
   }
 }

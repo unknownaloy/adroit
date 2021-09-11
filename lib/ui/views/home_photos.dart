@@ -13,7 +13,52 @@ class HomePhotos extends StatefulWidget {
   _HomePhotosState createState() => _HomePhotosState();
 }
 
-class _HomePhotosState extends State<HomePhotos> with AutomaticKeepAliveClientMixin{
+class _HomePhotosState extends State<HomePhotos>
+    with AutomaticKeepAliveClientMixin {
+  late final ScrollController _scrollController;
+
+  void _scrollListener() {
+    final homeBloc = BlocProvider.of<HomeBloc>(context);
+
+    double maxScroll = _scrollController.position.maxScrollExtent;
+    double currentScroll = _scrollController.position.pixels;
+    double delta = MediaQuery.of(context).size.height * 0.20;
+
+    // if (_scrollController.offset >=
+    //     _scrollController.position.maxScrollExtent &&
+    //     !_scrollController.position.outOfRange) {
+    //   if (!viewModel.hasGottenNextDocData && viewModel.hasMoreDocuments) {
+    //     viewModel.setCircularProgress(true);
+    //   } else {
+    //     viewModel.setCircularProgress(false);
+    //   }
+    // }
+    //
+    // if (maxScroll - currentScroll <= delta) {
+    //   viewModel.setShouldCheck(true);
+    //   if (viewModel.shouldRunCheck) {
+    //     viewModel.fetchPaginatedData(
+    //           () => viewModel.fetchNextData(),
+    //     );
+    //   }
+    // }
+
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      print("Gotten to the bottom of the screen");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController = ScrollController();
+
+    _scrollController.addListener(_scrollListener);
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -44,6 +89,7 @@ class _HomePhotosState extends State<HomePhotos> with AutomaticKeepAliveClientMi
           return Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: StaggeredGridView.countBuilder(
+              controller: _scrollController,
               crossAxisCount: 4,
               itemCount: state.wallpapers.length,
               itemBuilder: (BuildContext context, int index) {
@@ -51,20 +97,25 @@ class _HomePhotosState extends State<HomePhotos> with AutomaticKeepAliveClientMi
                 print("COLOR => ${wallpaper.color} $index");
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: index == 1 ? MainAxisAlignment.start : MainAxisAlignment.center,
+                  mainAxisAlignment: index == 1
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AvatarName(
                       artistImage: wallpaper.artistDetails.artistImage.small,
                       artistName: wallpaper.artistDetails.name,
                     ),
-                    AspectRatio(
-                      aspectRatio: index.isEven ? 9 / 16 : 5 / 4,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
-                        child: ImageHolder(
-                          imageUrl: wallpaper.imageUrl.small,
-                          blurHash: wallpaper.blurHash,
+                    Flexible(
+                      child: AspectRatio(
+                        aspectRatio: index.isEven ? 9 / 16 : 5 / 4,
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(top: 8.0, bottom: 16.0),
+                          child: ImageHolder(
+                            imageUrl: wallpaper.imageUrl.small,
+                            blurHash: wallpaper.blurHash,
+                          ),
                         ),
                       ),
                     ),
@@ -72,7 +123,7 @@ class _HomePhotosState extends State<HomePhotos> with AutomaticKeepAliveClientMi
                 );
               },
               staggeredTileBuilder: (int index) =>
-              new StaggeredTile.count(2, index.isEven ? 4 : 3),
+                  new StaggeredTile.count(2, index.isEven ? 4 : 3),
               mainAxisSpacing: 4.0,
               crossAxisSpacing: 4.0,
             ),
@@ -92,4 +143,3 @@ class _HomePhotosState extends State<HomePhotos> with AutomaticKeepAliveClientMi
   @override
   bool get wantKeepAlive => true;
 }
-

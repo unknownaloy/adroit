@@ -1,5 +1,5 @@
 import 'package:adroit/styles/colors.dart';
-import 'package:adroit/ui/views/home_screen.dart';
+import 'package:adroit/ui/views/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
     Future.delayed(const Duration(milliseconds: 2500), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) => LandingScreen(),
         ),
       );
     });

@@ -1,6 +1,7 @@
 import 'package:adroit/bloc/home/home_events.dart';
 import 'package:adroit/bloc/home/home_states.dart';
 import 'package:adroit/models/wallpaper.dart';
+import 'package:adroit/services/failure.dart';
 import 'package:adroit/services/wallpaper_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,6 +41,8 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
   Stream<HomeStates> mapEventToState(HomeEvents event) async* {
     if (event is HomeFetchEvent) {
       yield* _mapFetchWallpaperEventToState(event);
+    } else if (event is HomeNextData) {
+      // Handle next data event
     }
   }
 
@@ -52,9 +55,9 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
           await _wallpaperService.getListOfPhotos();
 
       yield HomeLoadedState(cachedWallPaperData);
-    } catch (e) {
+    } on Failure catch (e) {
       // Do something with error
-      yield HomeErrorState(e.toString());
+      yield HomeErrorState(e.message);
     }
   }
 }

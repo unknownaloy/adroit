@@ -7,14 +7,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:adroit/ui/components/custom_persistent_header.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class LandingScreen extends StatefulWidget {
+  const LandingScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _LandingScreenState createState() => _LandingScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
+class _LandingScreenState extends State<LandingScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
