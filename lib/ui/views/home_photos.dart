@@ -1,6 +1,6 @@
 import 'package:adroit/bloc/home/home_bloc.dart';
-import 'package:adroit/bloc/home/home_events.dart';
-import 'package:adroit/bloc/home/home_states.dart';
+import 'package:adroit/bloc/home/home_event.dart';
+import 'package:adroit/bloc/home/home_state.dart';
 import 'package:adroit/ui/components/avatar_name.dart';
 import 'package:adroit/ui/components/image_holder.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +66,7 @@ class _HomePhotosState extends State<HomePhotos>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocConsumer<HomeBloc, HomeStates>(
+    return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {
         // Do something with bloc state
         if (state is HomeLoadingState) {

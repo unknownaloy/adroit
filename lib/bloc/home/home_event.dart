@@ -1,15 +1,15 @@
 import 'package:adroit/models/wallpaper.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class HomeEvents extends Equatable {
-  const HomeEvents();
+abstract class HomeEvent extends Equatable {
+  const HomeEvent();
   @override
   List<Object> get props => [];
 }
 
-class HomeFetchEvent extends HomeEvents {}
+class HomeFetchEvent extends HomeEvent {}
 
-class HomeLoadedEvent extends HomeEvents {
+class HomeLoadedEvent extends HomeEvent {
   late final List<Wallpaper> wallpaper;
 
   HomeLoadedEvent(Wallpaper wallpaper);
@@ -18,4 +18,4 @@ class HomeLoadedEvent extends HomeEvents {
   List<Object> get props => [wallpaper];
 }
 
-class HomeNextData extends HomeEvents {}
+class HomeNextData extends HomeEvent {}
