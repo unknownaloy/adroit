@@ -22,13 +22,13 @@ class HomeErrorState extends HomeState {
   List<Object> get props => [errorMessage];
 }
 
-class HomeLoadedState extends HomeState {
+class HomeSuccessState extends HomeState {
   final List<Wallpaper> wallpapers;
 
-  const HomeLoadedState({required this.wallpapers});
+  const HomeSuccessState({required this.wallpapers});
 
-  HomeLoadedState copyWith({required List<Wallpaper>? wallpapers}) {
-    return HomeLoadedState(wallpapers: wallpapers ?? this.wallpapers);
+  HomeSuccessState copyWith({required List<Wallpaper>? wallpapers}) {
+    return HomeSuccessState(wallpapers: wallpapers ?? this.wallpapers);
   }
 
   @override

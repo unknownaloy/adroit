@@ -18,8 +18,6 @@ class _HomePhotosState extends State<HomePhotos>
     with AutomaticKeepAliveClientMixin {
   late final ScrollController _scrollController;
 
-  bool _showBottomLoading = false;
-
   void _scrollListener() {
     final homeBloc = BlocProvider.of<HomeBloc>(context);
 
@@ -27,30 +25,8 @@ class _HomePhotosState extends State<HomePhotos>
     double currentScroll = _scrollController.position.pixels;
     double delta = MediaQuery.of(context).size.height * 0.20;
 
-    // if (_scrollController.offset >=
-    //     _scrollController.position.maxScrollExtent &&
-    //     !_scrollController.position.outOfRange) {
-    //   if (!viewModel.hasGottenNextDocData && viewModel.hasMoreDocuments) {
-    //     viewModel.setCircularProgress(true);
-    //   } else {
-    //     viewModel.setCircularProgress(false);
-    //   }
-    // }
-    //
-    // if (maxScroll - currentScroll <= delta) {
-    //   viewModel.setShouldCheck(true);
-    //   if (viewModel.shouldRunCheck) {
-    //     viewModel.fetchPaginatedData(
-    //           () => viewModel.fetchNextData(),
-    //     );
-    //   }
-    // }
-
-    if (_scrollController.offset >=
-            _scrollController.position.maxScrollExtent &&
-        !_scrollController.position.outOfRange) {
-      homeBloc.add(HomeNextData());
-      print("Gotten to the bottom of the screen");
+    if ((maxScroll - currentScroll <= delta) && !homeBloc.isFetchingNextData) {
+      homeBloc.add(HomeFetchEvent());
     }
   }
 
@@ -64,96 +40,71 @@ class _HomePhotosState extends State<HomePhotos>
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocConsumer<HomeBloc, HomeState>(
-      listener: (context, state) {
-        // Do something with bloc state
-        if (state is HomeLoadingState) {
-          setState(() => _showBottomLoading = true);
-        }
-      },
+    return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        if (state is HomeInitialState) {
-          return Text(
-            "Initial loading...",
-            style: TextStyle(color: Colors.black),
-          );
-        }
-
         if (state is HomeErrorState) {
           return Text(
             state.errorMessage,
+            style: const TextStyle(color: Colors.black),
+          );
+        } else if (state is HomeSuccessState) {
+          // context.read<HomeBloc>().isFetchingNextData = false;
+          return Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: StaggeredGridView.countBuilder(
+              controller: _scrollController,
+              crossAxisCount: 4,
+              itemCount: state.wallpapers.length,
+              itemBuilder: (BuildContext context, int index) {
+                final wallpaper = state.wallpapers[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: index == 1
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AvatarName(
+                      artistImage:
+                      wallpaper.artistDetails.artistImage.small,
+                      artistName: wallpaper.artistDetails.name,
+                    ),
+                    Flexible(
+                      child: AspectRatio(
+                        aspectRatio: index.isEven ? 9 / 16 : 5 / 4,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 8.0, bottom: 16.0),
+                          child: ImageHolder(
+                            imageUrl: wallpaper.imageUrl.small,
+                            blurHash: wallpaper.blurHash,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+              staggeredTileBuilder: (int index) =>
+                  StaggeredTile.count(2, index.isEven ? 4 : 3),
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+            ),
+          );
+        } else {
+          return const Text(
+            "Loading",
             style: TextStyle(color: Colors.black),
           );
         }
-
-        if (state is HomeLoadedState) {
-          return Padding(
-            padding: const EdgeInsets.only(top: 12.0),
-            child: Column(
-              children: [
-                Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    controller: _scrollController,
-                    crossAxisCount: 4,
-                    itemCount: state.wallpapers.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final wallpaper = state.wallpapers[index];
-                      print("COLOR => ${wallpaper.color} $index");
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: index == 1
-                            ? MainAxisAlignment.start
-                            : MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          AvatarName(
-                            artistImage: wallpaper.artistDetails.artistImage.small,
-                            artistName: wallpaper.artistDetails.name,
-                          ),
-                          Flexible(
-                            child: AspectRatio(
-                              aspectRatio: index.isEven ? 9 / 16 : 5 / 4,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 8.0, bottom: 16.0),
-                                child: ImageHolder(
-                                  imageUrl: wallpaper.imageUrl.small,
-                                  blurHash: wallpaper.blurHash,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    staggeredTileBuilder: (int index) =>
-                        new StaggeredTile.count(2, index.isEven ? 4 : 3),
-                    mainAxisSpacing: 4.0,
-                    crossAxisSpacing: 4.0,
-                  ),
-                ),
-                _showBottomLoading
-                    ? Center(
-                  child: SizedBox(
-                    width: 18.0,
-                    height: 18.0,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.0,
-                    ),
-                  ),
-                )
-                    : SizedBox.shrink(),
-              ],
-            ),
-          );
-        }
-
-        return Text(
-          "Something is wrong",
-          style: TextStyle(color: Colors.black),
-        );
 
         /// Data has been gotten
       },

@@ -12,7 +12,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       : _wallpaperService = wallpaperService,
         super(HomeInitialState());
 
-  int _currentPage = 1;
+  int _currentPage = 2;
+
+  bool _isFetchingNextData = false;
+
+  bool get isFetchingNextData => _isFetchingNextData;
+
+
 
   // List<Wallpaper> _listOfWallpapers = [];
 
@@ -39,49 +45,36 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is HomeFetchEvent) {
       yield* _mapHomeFetchEventToState(event);
-    } else if (event is HomeNextData) {
-      // Handle next data event
-      yield* _mapHomeEventToState(event);
     }
   }
 
   Stream<HomeState> _mapHomeFetchEventToState(HomeFetchEvent event) async* {
-    // yield HomeLoadingState();
 
     try {
-      List<Wallpaper> tempWallpaperCache =
-          await _wallpaperService.getListOfPhotos();
 
-      // _listOfWallpapers = tempWallpaperCache;
+      if (state is HomeInitialState) {
+        List<Wallpaper> tempWallpaperCache =
+        await _wallpaperService.getListOfPhotos();
 
-      yield HomeLoadedState(wallpapers: tempWallpaperCache);
+        yield HomeSuccessState(wallpapers: tempWallpaperCache);
+      }
+
+      if (state is HomeSuccessState) {
+        _isFetchingNextData = true;
+
+        print("Fetching next data set");
+
+        final tempWallpaperCache = await _wallpaperService.getListOfPhotos(_currentPage);
+
+        print("Finished fetching next data set");
+        yield HomeSuccessState(wallpapers: (state as HomeSuccessState).wallpapers + tempWallpaperCache);
+        _isFetchingNextData = false;
+        _currentPage++;
+      }
+
+
     } on Failure catch (e) {
       // Do something with error
-      yield HomeErrorState(e.message);
-    }
-  }
-
-  Stream<HomeState> _mapHomeEventToState(HomeNextData event) async* {
-    // Handle
-    try {
-      print("Fetching next set of data");
-
-      _currentPage++;
-
-      List<Wallpaper> tempWallpaperCache =
-          await _wallpaperService.getListOfPhotos(_currentPage);
-
-      print("Gotten next set of data");
-
-      // _listOfWallpapers.addAll(tempWallpaperCache);
-
-      // print("Paginated data === ${_listOfWallpapers.length}");
-
-
-      yield HomeLoadedState(
-          wallpapers:
-              (state as HomeLoadedState).wallpapers + tempWallpaperCache);
-    } on Failure catch (e) {
       yield HomeErrorState(e.message);
     }
   }

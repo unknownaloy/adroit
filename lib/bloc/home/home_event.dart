@@ -8,14 +8,3 @@ abstract class HomeEvent extends Equatable {
 }
 
 class HomeFetchEvent extends HomeEvent {}
-
-class HomeLoadedEvent extends HomeEvent {
-  late final List<Wallpaper> wallpaper;
-
-  HomeLoadedEvent(Wallpaper wallpaper);
-
-  @override
-  List<Object> get props => [wallpaper];
-}
-
-class HomeNextData extends HomeEvent {}
