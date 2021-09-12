@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:adroit/bloc/home/home_bloc.dart';
 import 'package:adroit/bloc/home/home_event.dart';
 import 'package:adroit/bloc/home/home_state.dart';
+import 'package:adroit/services/wallpaper_service.dart';
 import 'package:adroit/ui/components/avatar_name.dart';
 import 'package:adroit/ui/components/image_holder.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +68,7 @@ class _HomePhotosState extends State<HomePhotos>
               itemCount: state.wallpapers.length,
               itemBuilder: (BuildContext context, int index) {
                 final wallpaper = state.wallpapers[index];
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: index == 1
@@ -73,16 +77,15 @@ class _HomePhotosState extends State<HomePhotos>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AvatarName(
-                      artistImage:
-                      wallpaper.artistDetails.artistImage.small,
+                      artistImage: wallpaper.artistDetails.artistImage.small,
                       artistName: wallpaper.artistDetails.name,
                     ),
                     Flexible(
                       child: AspectRatio(
                         aspectRatio: index.isEven ? 9 / 16 : 5 / 4,
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8.0, bottom: 16.0),
+                          padding:
+                              const EdgeInsets.only(top: 8.0, bottom: 16.0),
                           child: ImageHolder(
                             imageUrl: wallpaper.imageUrl.small,
                             blurHash: wallpaper.blurHash,
@@ -105,8 +108,6 @@ class _HomePhotosState extends State<HomePhotos>
             style: TextStyle(color: Colors.black),
           );
         }
-
-        /// Data has been gotten
       },
     );
   }

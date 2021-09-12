@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:adroit/ui/components/custom_persistent_header.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({Key? key}) : super(key: key);
@@ -17,6 +18,8 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final _client = http.Client;
+
 
   @override
   void initState() {

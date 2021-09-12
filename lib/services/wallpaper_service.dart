@@ -8,6 +8,7 @@ import 'package:adroit/utilities/strings.dart';
 import 'package:http/http.dart' as http;
 
 class WallpaperService {
+  http.Client client = http.Client();
 
   Future<List<Wallpaper>> getListOfPhotos([int page = 1]) async {
     try {
@@ -16,10 +17,9 @@ class WallpaperService {
         "client_id": clientId,
       };
 
-
       var uri = Uri.https("api.unsplash.com", "/photos/", queryParams);
 
-      http.Response response = await http.get(uri);
+      final response = await client.get(uri);
 
       if (response.statusCode == 200) {
         List<Wallpaper> result = [];
@@ -34,7 +34,7 @@ class WallpaperService {
 
         return result;
       } else {
-        throw Exception("An error occurred while fetching data");
+        throw HttpException;
       }
     } on SocketException catch (e) {
       print("getListOfPhotos => SocketException $e");
