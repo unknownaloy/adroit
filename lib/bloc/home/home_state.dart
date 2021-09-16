@@ -24,13 +24,21 @@ class HomeErrorState extends HomeState {
 
 class HomeSuccessState extends HomeState {
   final List<Wallpaper> wallpapers;
+  final bool hasReachedMax;
 
-  const HomeSuccessState({required this.wallpapers});
+  const HomeSuccessState({
+    required this.wallpapers,
+    required this.hasReachedMax,
+  });
 
-  HomeSuccessState copyWith({required List<Wallpaper>? wallpapers}) {
-    return HomeSuccessState(wallpapers: wallpapers ?? this.wallpapers);
+  HomeSuccessState copyWith(
+      {List<Wallpaper>? wallpapers, bool? hasReachedMax}) {
+    return HomeSuccessState(
+      wallpapers: wallpapers ?? this.wallpapers,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+    );
   }
 
   @override
-  List<Object> get props => [wallpapers];
+  List<Object> get props => [wallpapers, hasReachedMax];
 }

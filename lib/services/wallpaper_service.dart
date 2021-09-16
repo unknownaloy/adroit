@@ -34,7 +34,8 @@ class WallpaperService {
 
         return result;
       } else {
-        throw HttpException;
+        /// TODO: Throw an exception here
+        throw Exception("Failed to load");
       }
     } on SocketException catch (e) {
       print("getListOfPhotos => SocketException $e");

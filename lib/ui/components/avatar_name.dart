@@ -16,13 +16,13 @@ class AvatarName extends StatelessWidget {
           backgroundColor: Colors.orange,
           backgroundImage: CachedNetworkImageProvider(artistImage),
         ),
-        SizedBox(
+        const SizedBox(
           width: 8.0,
         ),
         Flexible(
           child: Text(
             artistName,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
       ],
