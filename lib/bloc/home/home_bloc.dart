@@ -5,6 +5,8 @@ import 'package:adroit/services/failure.dart';
 import 'package:adroit/services/wallpaper_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:http/http.dart' as http;
+
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final WallpaperService _wallpaperService;
 
@@ -12,17 +14,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       : _wallpaperService = wallpaperService,
         super(HomeInitialState());
 
-  @override
-  HomeState get state => HomeInitialState();
-
   int _currentPage = 2;
 
   bool _isFetchingNextData = false;
 
   bool get isFetchingNextData => _isFetchingNextData;
-
-  bool _hasReachedMax(HomeState state) =>
-      state is HomeSuccessState && state.hasReachedMax;
 
   // List<Wallpaper> _listOfWallpapers = [];
 
@@ -47,7 +43,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
-    if (event is HomeFetchEvent && !_hasReachedMax(state)) {
+    if (event is HomeFetchEvent) {
       yield* _mapHomeFetchEventToState(event);
     }
   }
@@ -58,10 +54,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         List<Wallpaper> tempWallpaperCache =
             await _wallpaperService.getListOfPhotos();
 
-        yield HomeSuccessState(
-          wallpapers: tempWallpaperCache,
-          hasReachedMax: false,
-        );
+        yield HomeSuccessState(wallpapers: tempWallpaperCache);
       }
 
       if (state is HomeSuccessState) {
@@ -69,19 +62,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
         print("Fetching next data set");
 
-
         final tempWallpaperCache =
             await _wallpaperService.getListOfPhotos(_currentPage);
 
         print("Finished fetching next data set");
-
-        yield tempWallpaperCache.isEmpty
-            ? (state as HomeSuccessState).copyWith(hasReachedMax: true)
-            : HomeSuccessState(
-                wallpapers:
-                    (state as HomeSuccessState).wallpapers + tempWallpaperCache,
-                hasReachedMax: false,
-              );
+        yield HomeSuccessState(
+            wallpapers:
+                (state as HomeSuccessState).wallpapers + tempWallpaperCache);
         _isFetchingNextData = false;
         _currentPage++;
       }

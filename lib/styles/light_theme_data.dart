@@ -11,7 +11,7 @@ ThemeData lightTheme() {
     primaryColorLight: kPrimaryColorLight,
     accentColor: kSecondaryColor,
     textTheme: kLightTextTheme,
-    tabBarTheme: TabBarTheme(
+    tabBarTheme: const TabBarTheme(
       indicatorSize: TabBarIndicatorSize.label,
     ),
   );

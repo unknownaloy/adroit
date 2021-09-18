@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:adroit/bloc/home/home_bloc.dart';
 import 'package:adroit/bloc/home/home_event.dart';
 import 'package:adroit/bloc/home/home_state.dart';
-import 'package:adroit/services/wallpaper_service.dart';
 import 'package:adroit/ui/components/avatar_name.dart';
 import 'package:adroit/ui/components/image_holder.dart';
 import 'package:flutter/material.dart';

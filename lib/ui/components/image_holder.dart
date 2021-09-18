@@ -13,10 +13,13 @@ class ImageHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      progressIndicatorBuilder: (_, __, ___) => BlurHash(hash: blurHash),
-      imageUrl: imageUrl,
-      fit: BoxFit.cover,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8.0),
+      child: CachedNetworkImage(
+        progressIndicatorBuilder: (_, __, ___) => BlurHash(hash: blurHash),
+        imageUrl: imageUrl,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }
