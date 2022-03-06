@@ -60,7 +60,7 @@ class _LandingScreenState extends State<LandingScreen>
                         ..add(
                           HomeFetchEvent(),
                         ),
-                  child: HomePhotos(),
+                  child: const HomePhotos(),
                 ),
                 Text(
                   "the other side",

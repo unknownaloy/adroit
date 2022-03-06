@@ -36,10 +36,8 @@ void main() {
       expect(await wallpaperService.getListOfPhotos(), isA<List<Wallpaper>>());
     });
 
-
     test('throws a Failure if the http call completes with an error', () {
-      when(client
-          .get(uri))
+      when(client.get(uri))
           .thenAnswer((_) async => http.Response('Not Found', 404));
 
       expect(wallpaperService.getListOfPhotos(), throwsA(isA<Failure>()));

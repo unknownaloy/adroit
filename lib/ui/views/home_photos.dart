@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:adroit/bloc/home/home_bloc.dart';
 import 'package:adroit/bloc/home/home_event.dart';
 import 'package:adroit/bloc/home/home_state.dart';
@@ -59,20 +57,27 @@ class _HomePhotosState extends State<HomePhotos>
           );
         } else if (state is HomeSuccessState) {
           // context.read<HomeBloc>().isFetchingNextData = false;
-          return Padding(
-            padding: const EdgeInsets.only(top: 12.0),
-            child: StaggeredGridView.countBuilder(
-              controller: _scrollController,
-              crossAxisCount: 4,
-              itemCount: state.wallpapers.length,
-              itemBuilder: (BuildContext context, int index) {
+          return GridView.custom(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            gridDelegate: SliverWovenGridDelegate.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 2,
+              pattern: [
+                const WovenGridTile(9/16),
+                const WovenGridTile(
+                 9/16,
+                  crossAxisRatio: 0.9,
+                  alignment: AlignmentDirectional.centerEnd,
+                ),
+              ],
+            ),
+            childrenDelegate: SliverChildBuilderDelegate(
+              (context, index) {
                 final wallpaper = state.wallpapers[index];
-
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: index == 1
-                      ? MainAxisAlignment.start
-                      : MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AvatarName(
@@ -80,25 +85,15 @@ class _HomePhotosState extends State<HomePhotos>
                       artistName: wallpaper.artistDetails.name,
                     ),
                     Flexible(
-                      child: AspectRatio(
-                        aspectRatio: index.isEven ? 9 / 16 : 5 / 4,
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.only(top: 8.0, bottom: 16.0),
-                          child: ImageHolder(
-                            imageUrl: wallpaper.imageUrl.small,
-                            blurHash: wallpaper.blurHash,
-                          ),
-                        ),
+                      child: ImageHolder(
+                        imageUrl: wallpaper.imageUrl.small,
+                        blurHash: wallpaper.blurHash,
                       ),
                     ),
                   ],
                 );
               },
-              staggeredTileBuilder: (int index) =>
-                  StaggeredTile.count(2, index.isEven ? 4 : 3),
-              mainAxisSpacing: 4.0,
-              crossAxisSpacing: 4.0,
+              childCount: state.wallpapers.length,
             ),
           );
         } else {

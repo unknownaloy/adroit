@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       supportedLocales: L10n.all,
-      localizationsDelegates: [
+      localizationsDelegates: const [
         AppLocalizations.delegate, // Add this line
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       ],
       title: 'Adroit',
       theme: lightTheme(),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

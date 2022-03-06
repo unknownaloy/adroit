@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
     Future.delayed(const Duration(milliseconds: 2500), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => LandingScreen(),
+          builder: (context) => const LandingScreen(),
         ),
       );
     });
@@ -20,7 +20,7 @@ class SplashScreen extends StatelessWidget {
       child: Center(
         child: Shimmer.fromColors(
           baseColor: Colors.white,
-          highlightColor: Color(0xffcaaf65),
+          highlightColor: const Color(0xffcaaf65),
           child: Text(
             "Adroit",
             /// TODO: Remove the use of the text theme

@@ -12,7 +12,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeBloc({required WallpaperService wallpaperService})
       : _wallpaperService = wallpaperService,
-        super(HomeInitialState());
+        super(HomeInitialState()) {
+    on<HomeFetchEvent>(_onHomeFetchEvent);
+  }
 
   int _currentPage = 2;
 
@@ -20,41 +22,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   bool get isFetchingNextData => _isFetchingNextData;
 
-  // List<Wallpaper> _listOfWallpapers = [];
-
-  // @override
-  // HomeStates? fromJson(Map<String, dynamic> json) {
-  //   // TODO: implement fromJson
-  //   print("Error from fromJson in the HomeBloc");
-  //   throw UnimplementedError();
-  // }
-  //
-  // @override
-  // Map<String, dynamic>? toJson(HomeStates state) {
-  //   // TODO: implement toJson
-  //   if (state is HomeLoadedState) {
-  //     for (final wallpaper in state.wallpapers) {
-  //       return wallpaper.toJson();
-  //     }
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
-  @override
-  Stream<HomeState> mapEventToState(HomeEvent event) async* {
-    if (event is HomeFetchEvent) {
-      yield* _mapHomeFetchEventToState(event);
-    }
-  }
-
-  Stream<HomeState> _mapHomeFetchEventToState(HomeFetchEvent event) async* {
+  void _onHomeFetchEvent(HomeFetchEvent event, Emitter<HomeState> emit) async {
     try {
       if (state is HomeInitialState) {
         List<Wallpaper> tempWallpaperCache =
             await _wallpaperService.getListOfPhotos();
 
-        yield HomeSuccessState(wallpapers: tempWallpaperCache);
+        return emit(HomeSuccessState(wallpapers: tempWallpaperCache));
       }
 
       if (state is HomeSuccessState) {
@@ -66,15 +40,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             await _wallpaperService.getListOfPhotos(_currentPage);
 
         print("Finished fetching next data set");
-        yield HomeSuccessState(
+        emit(HomeSuccessState(
             wallpapers:
-                (state as HomeSuccessState).wallpapers + tempWallpaperCache);
+                (state as HomeSuccessState).wallpapers + tempWallpaperCache));
         _isFetchingNextData = false;
         _currentPage++;
       }
     } on Failure catch (e) {
       // Do something with error
-      yield HomeErrorState(e.message);
+      return emit(HomeErrorState(e.message));
     }
   }
 }
